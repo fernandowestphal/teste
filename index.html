@@ -1,108 +1,51 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
-<head>
-  <style type="text/css">
-<!--
-.style4 {font-family: tahoma; font-size: 12px; font-weight: bold; }
-.style5 {font-size: 12px; font-family: tahoma;}
-.style6 {font-size: 12px; font-family: tahoma; color: #FFFFFF; }
-.style8 {font-family: tahoma; font-size: 12px; font-weight: bold; color: #0000FF; }
--->
-  </style>
-</head>
-<body>
-<form name="form1" method="post" action="calcular.php">
-  <table align="center" border="0" cellpadding="15" width="590">
-    <tbody>
-      <tr>
-        <td colspan="1" rowspan="1" align="left" height="50"> <font
- face="tahoma" size="3"><b>NBR10821
-- Esquadrias para edifica&ccedil;&otilde;es. <br>
-Parte 4:
-Requisitos adicionais de desempenho <br>
-        </b></font><b><font color="#696969" face="tahoma" size="2">4.2.3
-- Conforto t&eacute;rmico<br>
-4.2.3.2 - Classifica&ccedil;&atilde;o e desempenho - PLANILHA
-DE C&Aacute;LCULO</font></b>
-        </td>
-        <td><img src="images/etiqueta_final_red.jpg" alt="Etiqueta"
- style="width: 51px; height: 81px;"></td>
-      </tr>
-    </tbody>
-  </table>
-  <table
- style="width: 590px; text-align: left; margin-left: auto; margin-right: auto;"
- border="0" cellpadding="5" cellspacing="5">
-    <tbody>
-      <tr>
-        <td style="width: 158px;" colspan="3" bgcolor="#000000">
-        <p class="style6"><br>
-        </p>
-        </td>
-      </tr>
-      <tr>
-        <td style="width: 153px;"><span class="style8">Par&acirc;metros
-de entrada</span></td>
-        <td colspan="2" rowspan="1" style="width: 158px;"> <span
- class="style4"></span></td>
-      </tr>
-      <tr>
-        <td style="width: 153px;" class="style5">
-        <div align="right"><strong>&Aacute;rea
-de vidro(%):</strong></div>
-        </td>
-        <td style="width: 158px;"><input name="Rvj" value="0.8"></td>
-        <td><small>[informar
-percentual
-de &aacute;rea de vidro total da esquadria]</small></td>
-      </tr>
-      <tr>
-        <td style="width: 153px;" class="style5">
-        <div align="right"><strong>Uf
-(W/m&sup2;.K):</strong></div>
-        </td>
-        <td style="width: 158px;"><input value="5.0" name="Uf"></td>
-        <td><small>[transmit&acirc;ncia
-t&eacute;rmica do perfil - obtida com o Therm, por exemplo]</small></td>
-      </tr>
-      <tr>
-        <td style="width: 153px;" class="style5">
-        <div align="right"><strong>SHGCg
-(adim.):</strong></div>
-        </td>
-        <td style="width: 158px;"><input name="SHGCg" value="0.45"></td>
-        <td><small>[fator
-solar do vidro]</small></td>
-      </tr>
-      <tr>
-        <td style="width: 153px;" class="style5">
-        <div align="right"><strong>Ug
-(W/m&sup2;.K):</strong></div>
-        </td>
-        <td style="width: 158px;"><input name="Ug" value="5.80"></td>
-        <td><small>[transmit&acirc;ncia
-t&eacute;rmica do vidro]</small></td>
-      </tr>
-      <tr>
-        <td style="width: 153px;" class="style5">
-        <div align="right"><strong>Tvg
-(adim.):</strong></div>
-        </td>
-        <td><input name="Tvg" value="0.45"></td>
-        <td><small>[transmiss&atilde;o
-vis&iacute;vel do vidro]</small></td>
-      </tr>
-      <tr>
-        <td style="width: 153px;" bgcolor="#ffffff"> <br>
-        </td>
-        <td style="width: 158px;" colspan="2">
-        <div align="left"><input name="Submit" value="Calcular"
- type="submit"></div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <p>&nbsp;</p>
+  <head>
+    <meta charset="utf-8">
+    <title>Calculadora</title>
+
+  </head>
+  <body>
+    <h1>Calculadora</h1>
+     
+<form action="/pagina-processa-dados-do-form" method="post">
+    <div>
+        <label for="area">Area:</label>
+        <input type="text" id="area" value="12"/>
+    </div><br>
+    <div>
+        <label for="PD">Pé-direito:</label>
+        <input type="text" id="PD" value="2.80"/>
+    </div><br>
+    <div>
+        <label for="FS">Fator solar:</label>
+        <input type="text" id="FS" value="0.87"/>
+    </div><br>
+    <div>
+        <label for="U">U-value:</label>
+        <input type="text" id="U" value="5.8"/>
+    </div><br>
+    <div>
+        Região: <select name="teste">Teste:
+        <option value="norte">
+            Norte
+        </option>
+        <option value="sul">
+            Sul
+        </option>
+    </select>
+    </div><br>
+    <div class="button">
+        <button id="btnCalcular" type="submit">Calcular</button>
+    </div>
 </form>
-</body>
+
+<div id="teste">
+
+</div>
+    
+<script src="scripts/main.js"></script>
+<script src="scripts/teste.js"></script>
+
+  </body>
 </html>

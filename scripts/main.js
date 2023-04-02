@@ -22,10 +22,10 @@ btnCalcular.addEventListener("click", function(event){
   calculo(parseFloat(area.value), parseFloat(PD.value), parseFloat(FS.value), parseFloat(U.value));
 
   // Aqui chama o elemento do HTML
-  //var divTeste = document.querySelector("#teste")
+  var divTeste = document.querySelector("#teste")
   
   // E finalmente adiciona-se o elemente
-  //divTeste.appendChild(resultado);
+  divTeste.appendChild(max);
   
   //console.log(frmNome.value);
 

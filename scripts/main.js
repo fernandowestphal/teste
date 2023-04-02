@@ -17,7 +17,7 @@ btnCalcular.addEventListener("click", function(event){
    
   //--> aqui chama a função, antes de adicionar o elemento no HTML:
   //resultado.textContent = calculo(area.value, PD.value, FS.value, U.value);
-  debugger
+  //debugger
   calculo(parseFloat(area.value), parseFloat(PD.value), parseFloat(0.87), parseFloat(5.8));
   calculo(parseFloat(area.value), parseFloat(PD.value), parseFloat(FS.value), parseFloat(U.value));
 

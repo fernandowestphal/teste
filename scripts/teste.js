@@ -305,7 +305,7 @@ for (hora = 0; hora < 24; hora++ ) {
     max = carga_total_sensivel[hora];
   }
 }
-document.writeln(max);
+//document.writeln(max);
 
 
 // --> fim do cálculo dos ganhos por cargas internas

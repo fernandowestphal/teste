@@ -3,49 +3,268 @@
   <head>
     <meta charset="utf-8">
     <title>Calculadora</title>
-
+    <link rel="stylesheet" href="styles/styles.css">
   </head>
-  <body>
-    <h1>Calculadora</h1>
-     
-<form action="/pagina-processa-dados-do-form" method="post">
-    <div>
-        <label for="area">Area:</label>
-        <input type="text" id="area" value="12"/>
-    </div><br>
-    <div>
-        <label for="PD">Pé-direito:</label>
-        <input type="text" id="PD" value="2.80"/>
-    </div><br>
-    <div>
-        <label for="FS">Fator solar:</label>
-        <input type="text" id="FS" value="0.87"/>
-    </div><br>
-    <div>
-        <label for="U">U-value:</label>
-        <input type="text" id="U" value="5.8"/>
-    </div><br>
-    <div>
-        Região: <select name="teste">Teste:
-        <option value="norte">
-            Norte
-        </option>
-        <option value="sul">
-            Sul
-        </option>
-    </select>
-    </div><br>
-    <div class="button">
-        <button id="btnCalcular" type="submit">Calcular</button>
-    </div>
-</form>
+  <body >
+    <h1 align="center">Calculadora - Economia de energia por tipo de vidro</h1>
+ 
+    <table align="center">
+        <tr >
+            <td class="subtitulo">Dados do ambiente:</td>
+            <td></td>
+            <td class="subtitulo">Dados da janela e do vidro:</td>
+            <td></td>
+        </tr>
+        
+        <tr>
+            <td>
+                Região:
+            </td>
+            <td>
+                <select id="regiao" name="teste" class="select">
+                    <option value="norte">
+                        Norte/Nordeste
+                    </option>
+                    <option value="centro">
+                        Centro-oeste/Sudeste
+                    </option>
+                    <option value="sul">
+                        Sul
+                    </option>
+                </select>
+            </td>      
 
-<div id="teste">
+            <td>
+                Área da janela (m²):
+            </td>
+            <td>
+                <input type="text" id="area_janela" value="2" size="5" class="caixa-texto"/>
+            </td>
 
-</div>
+        </tr>
+        <tr>
+            <td>
+                Área do ambiente (m²):
+            </td>
+            <td>
+                <input type="text" id="area_piso" value="12" size="5" class="caixa-texto"/>
+            </td>
+
+            <td>
+                Tipo de vidro:
+            </td>
+            <td>
+                <select id="tipo_vidro" name="tipo_vidro" class="select">
+                    <option value="incolor">
+                        Incolor (FS 0.87)
+                    </option>
+                    <option value="colorido">
+                        Colorido (FS 0.60)
+                    </option>
+                    <option value="refletivo">
+                        Refletivo (FS 0.45)
+                    </option>
+                    <option value="refletivo_alta">
+                        Refletivo - alta eficiência (FS 0.30)
+                    </option>
+                </select>   
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Pé-direito (m):
+            </td>
+            <td>
+                <input type="text" id="PD" value="2.80" size="5" class="caixa-texto"/>
+            </td>
+
+            <td>
+                Composição do vidro:
+            </td>
+            <td>
+                <select id="composicao" name="composicao" class="select">
+                    <option value="monolitico">
+                        Monolítico
+                    </option>
+                    <option value="laminado">
+                        Laminado
+                    </option>
+                    <option value="insulado">
+                        Insulado
+                    </option>
+                    <option value="insulado_lowe">
+                        Insulado Low-e
+                    </option>
+                </select>   
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Área da parede externa (m²):
+            </td>
+            <td>
+                <input type="text" id="area_par" value="10" size="5" class="caixa-texto"/>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                Cor da parede:
+            </td>
+            <td>
+                <select id="cor_par" name="cor_par" class="select">
+                    <option value="clara">
+                        Clara
+                    </option>
+                    <option value="escura">
+                        Escura
+                    </option>
+                </select>
+            </td>
+
+            <td class="button">
+                    
+            </td>
+            <td align="right">
+                <button id="btnCalcular" class="btn btn-info" width="5">Calcular</button> 
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Orientação solar:
+            </td>
+            <td>
+                <select id="orientacao" name="orientacao" class="select">
+                    <option value="leste">
+                        Sol da manhã (Leste)
+                    </option>
+                    <option value="oeste">
+                        Sol da tarde (Oeste)
+                    </option>
+                    <option value="norte">
+                        Sol o dia inteiro (Norte)
+                    </option>
+                    <option value="norte">
+                        Sol da tarde no verão (Sul)
+                    </option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Número de pessoas:
+            </td>
+            <td>
+                <input type="text" id="pessoas" value="2" size="5" class="caixa-texto"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Iluminação (W):
+            </td>
+            <td>
+                <input type="text" id="iluminacao" value="20" size="5" class="caixa-texto"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Equipamentos (W):
+            </td>
+            <td>
+                <input type="text" id="equipamentos" value="50" size="5" class="caixa-texto"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Uso do ambiente
+            </td>
+            <td>
+                <select id="horario" name="horario" class="select">
+                    <option value="escritorio">
+                        Escritório
+                    </option>
+                    <option value="dormitorio">
+                        Dormitório
+                    </option>
+                    <option value="24horas">
+                        24 Horas
+                    </option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Cobertura exposta:
+            </td>
+            <td>
+                <select id="cob_exposta" name="cob_exposta" class="select">
+                    <option value="nao">
+                        Não
+                    </option>
+                    <option value="sim">
+                        Sim
+                    </option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Cor da cobertura:
+            </td>
+            <td>
+                <select id="cor_cob" name="cor_cob" class="select">
+                    <option value="clara">
+                        Clara
+                    </option>
+                    <option value="escura">
+                        Escura
+                    </option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Tarifa de energia (R$/kWh):
+            </td>
+            <td>
+                <input type="text" id="tarifa" value="0.85" size="5" class="caixa-texto"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Custo adicional do vidro (R$):
+            </td>
+            <td>
+                <input type="text" id="custo_vidro" value="500" size="5" class="caixa-texto"/>
+            </td>
+        </tr>
+    </table>
     
-<script src="scripts/main.js"></script>
-<script src="scripts/teste.js"></script>
+    <h2>
+        <table align="center" width="60%"> 
+        <tr><td>
+            <div>RESULTADOS:</div><br>
+        <div id="res_referencia"></div><br>
+        <div id="res_modelo"></div><br>
+        <div id="res_reducao"></div><br>
+        <div id="res_economia_kwh"></div><br>
+        <div id="res_economia_reais"></div><br>
+        <div id="payback"></div>
+    </td><td></td></tr>    
+    </table>
+    </h2>   
+
+    <script src="scripts/main.js"></script> 
 
   </body>
 </html>

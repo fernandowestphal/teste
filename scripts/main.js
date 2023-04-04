@@ -44,6 +44,35 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
     }   
 
     Tint = new Array(24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24);
+    
+    var radiacao_norte = [  //linhas = horas, colunas = superfícies (cob, norte, leste, sul, oeste)
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,22,59,0,],
+    [185,49,490,220,30,],
+    [466,104,705,301,48,],
+    [739,146,689,331,55,],
+    [954,181,547,336,63,],
+    [1091,204,326,332,68,],
+    [1129,205,65,327,65,],
+    [1091,204,68,332,326,],
+    [954,181,63,336,547,],
+    [739,146,55,331,689,],
+    [466,104,48,301,705,],
+    [185,49,30,220,490,],
+    [0,0,0,59,2,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,],
+    [0,0,0,0,0,]
+    ];  
+
+    
     var radiacao_centro = [  //linhas = horas, colunas = superfícies (cob, norte, leste, sul, oeste)
     [0,0,0,0,0,],
     [0,0,0,0,0,],
@@ -98,39 +127,13 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
     [0,0,0,0,0,]
     ];  
 
-    var radiacao_norte = [  //linhas = horas, colunas = superfícies (cob, norte, leste, sul, oeste)
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,22,59,0,],
-    [185,49,490,220,30,],
-    [466,104,705,301,48,],
-    [739,146,689,331,55,],
-    [954,181,547,336,63,],
-    [1091,204,326,332,68,],
-    [1129,205,65,327,65,],
-    [1091,204,68,332,326,],
-    [954,181,63,336,547,],
-    [739,146,55,331,689,],
-    [466,104,48,301,705,],
-    [185,49,30,220,490,],
-    [0,0,0,59,2,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,],
-    [0,0,0,0,0,]
-    ];  
 
     var radiacao = [radiacao_norte, radiacao_centro, radiacao_sul]; 
 
     // --> Aqui iniciam os cálculos dos ganhos de calor por superfície
     //var area_piso = 12; //--> VARIAR NA INTERFACE
     //var PD = 2.8; //--> VARIAR NA INTERFACE pé-direito
-    var area_superficie = new Array(area_piso,0,0,0,0); //-->VARIAR NA INTERFACE - ordem: cobertura, norte, leste, sul, oeste
+    var area_superficie = new Array(0,0,0,0,0); //-->VARIAR NA INTERFACE - ordem: cobertura, norte, leste, sul, oeste
     var sol_superficie = new Array(0,0,0,0,0); //-->VARIAR NA INTERFACE
     var alfa = new Array(0.026,0.026,0.026,0.026,0.026,);
     if (cor_par == "escura"){
@@ -144,7 +147,6 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
         case "norte":
             area_superficie[1] = area_par;
             sol_superficie[1] = 1;
-
             break;
         case "leste":
             area_superficie[2] = area_par;
@@ -162,6 +164,7 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
 
     if (cob_exposta=="sim"){
         sol_superficie[0]=1;
+        area_superficie[0]=area_piso;
     }   
 
     if (cor_cobertura=="escura"){
@@ -189,6 +192,7 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
             } else {
                 temp_sol_ar[i][j] = Text[i];
             }
+            //document.writeln(j + ";" + temp_sol_ar[i][j] + "<br>")
         }
     }   
 
@@ -252,7 +256,14 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
     var superficie;
     var count;
     for (superficie = 0; superficie <= 4; superficie ++ ){
+        debugger
         if (area_superficie[superficie] > 0 ){
+            if (area_superficie[superficie] <= area_janela ){
+                alert("Atenção! A área da janela deve ser inferior à da parede. Ajuste os valores e refaça a operação.");
+                return;
+            } else {
+                area_superficie[superficie] -= area_janela //descontar área da janela
+            }
             for (count=0 ; count<=4 ; count++){  //5 iterações
                 for (i=0; i<=23; i++){ // 24 horas
                     var SomaBn = 0;
@@ -270,17 +281,17 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
                                 horai = 23 - j;
                             } else {
                                 if ((i - j) <= 0){
-                                    horai = 23 - j + 1;
+                                    horai = 23 - j; //+ 1;
                                 } else {
                                     horai = i - j - 1;
                                 }
                             }
-                            SomaDn = SomaDn + dn[superficie][j+1] * ganho_superficie[horai][superficie];
+                            SomaDn = SomaDn + dn[superficie][j+1] * ganho_superficie[horai][superficie] / area_superficie[superficie];
                         }
                     }
-                    SomaDn = SomaDn / area_superficie[superficie];
+                    //SomaDn = SomaDn / area_superficie[superficie];
                     ganho_superficie[i][superficie] = area_superficie[superficie] * (SomaBn - SomaDn - (Tint[i]* cn[superficie]));
-                    //document.writeln(ganho_superficie[i][superficie]+"<br>")
+                    //document.writeln(superficie + ";" + ganho_superficie[i][superficie]+"<br>")
                 }
             }
         } else {
@@ -303,9 +314,7 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
     // --> Fim dos cálculos dos ganhos de calor por superfície  
 
     // --> início do ganho de calor por janelas
-    //var Ujanela = 5.8; // --> VARIAR NA INTERFACE
-    //var FS = 0.87; // --> VARIAR NA INTERFACE
-    //area_janela = new Array (0, 0, 0, 2); // --> VARIAR NA INTERFACE - ORDEM: Norte, Leste, Sul, Oeste
+    
     var conducao_janela = [];
     var radiacao_janela = [];
     radiacao_janelas_total = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -359,6 +368,7 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
                 radiacao_janela[i][janela] = area_janela * FS * radiacao[regiao_id][i][janela + 1]; // aqui eu usei janela + 1 porque a cobertura não terá janelas
                 radiacao_janelas_total[i] += radiacao_janela[i][janela];
                 //document.writeln(radiacao_janelas_total[i]+"<br>")
+                //document.writeln(conducao_janela[i][janela]+"<br>")
             }
         }
 
@@ -408,11 +418,20 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
     }   
 
     //carga radiante
+    /*
+    //Medium:
     var w1 = -0.93 //--> TRAVEI PARA UM SISTEMA CONSTRUTIVO APENAS
     v_pes_equip = new Array(0.197, -0.127);
     v_ilum = new Array(0.55, -0.48);
     v_solar = new Array(0.197, -0.127);
-    v_conducao = new Array(0.681, -0.611);  
+    v_conducao = new Array(0.681, -0.611);  */
+
+    //Heavy:
+    var w1 = -0.95 //--> TRAVEI PARA UM SISTEMA CONSTRUTIVO APENAS
+    v_pes_equip = new Array(0.187, -0.137);
+    v_ilum = new Array(0.45, -0.4);
+    v_solar = new Array(0.187, -0.137);
+    v_conducao = new Array(0.676, -0.626);  
 
     carga_rad_janelas = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
     carga_rad_pessoas = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
@@ -422,7 +441,7 @@ function calculo(regiao,area_piso,PD,tipo_vidro,composicao,area_par, cor_par, or
 
     // carga radiante por janelas
     var iteracao;
-    for (iteracao = 0; iteracao < 6; iteracao++){ // 5 iterações
+    for (iteracao = 0; iteracao < 6; iteracao++){ // 6 iterações
         for (hora = 0; hora < 24; hora++ ) {
            if (hora == 0){
             horai = 23;
@@ -503,6 +522,7 @@ btnCalcular.addEventListener("click", function(event){
     //console.log(horario);
   
     var carga_referencia = calculo(regiao,area_piso, PD, "incolor", "monolitico", area_par,cor_par,orientacao, pessoas, iluminacao, equipamentos,horario,cob_exposta,cor_cobertura,area_janela)[0];
+    
     var carga_modelo = calculo(regiao,area_piso, PD, tipo_vidro, composicao,area_par,cor_par,orientacao, pessoas, iluminacao, equipamentos,horario,cob_exposta,cor_cobertura,area_janela)[0];
     var reducao = parseInt((carga_referencia - carga_modelo) * 3.41);
 
@@ -528,7 +548,7 @@ btnCalcular.addEventListener("click", function(event){
         document.getElementById("payback").innerHTML="Payback: " + payback + " ano";
     }
     
-
+    
     /*document.getElementById("res_referencia").innerHTML= "Referência: " + calculo(area_piso, PD, 0.87, 5.8, area_par,cor_par,orientacao, pessoas, iluminacao, equipamentos,horario,cob_exposta,cor_cobertura,area_janela) 
     + " W";
     document.getElementById("res_modelo").innerHTML="Modelo : " + calculo(area_piso, PD, FS, Ujanela,area_par,cor_par,orientacao, pessoas, iluminacao, equipamentos,horario,cob_exposta,cor_cobertura,area_janela)
